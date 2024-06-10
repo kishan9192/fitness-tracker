@@ -43,21 +43,21 @@ const Unit = styled.div`
   font-size: 14px;
   margin-bottom: 8px;
 `;
-const Span = styled.div`
-  margin-bottom: 8px;
-  font-weight: 500;
-  font-size: 16px;
-  @media (max-width: 600px) {
-    font-size: 12px;
-  }
+// const Span = styled.div`
+//   margin-bottom: 8px;
+//   font-weight: 500;
+//   font-size: 16px;
+//   @media (max-width: 600px) {
+//     font-size: 12px;
+//   }
 
-  ${({ positive, theme }) =>
-    positive
-      ? `
-  color: ${theme.green};`
-      : `
-  color: ${theme.red};`}
-`;
+//   ${({ positive, theme }) =>
+//     positive
+//       ? `
+//   color: ${theme.green};`
+//       : `
+//   color: ${theme.red};`}
+// `;
 const Icon = styled.div`
   height: fit-content;
   padding: 8px;
@@ -88,7 +88,8 @@ const CountsCard = ({ item, data }) => {
         <Value>
           {data && data[item.key].toFixed(2)}
           <Unit>{item.unit}</Unit>
-          <Span positive>(+10%)</Span>
+          {/* TODO: Get the increase/decrease percentage from backend */}
+          {/* <Span positive>(+10%)</Span> */}
         </Value>
         <Desc>{item.desc}</Desc>
       </Left>

@@ -7,6 +7,7 @@ import CategoryChart from "../components/cards/CategoryChart";
 import AddWorkout from "../components/AddWorkout";
 import WorkoutCard from "../components/cards/WorkoutCard";
 import { addWorkout, getDashboardDetails, getWorkouts } from "../api";
+import Loader from "../components/Loader";
 
 const Container = styled.div`
   flex: 1;
@@ -114,6 +115,7 @@ const Dashboard = () => {
   return (
     <Container>
       <Wrapper>
+        {loading && <Loader />}
         <Title>Dashboard</Title>
         <FlexWrap>
           {counts.map((item) => (

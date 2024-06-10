@@ -85,7 +85,7 @@ const SignIn = () => {
           handelChange={(e) => setPassword(e.target.value)}
         />
         <Button
-          text="SignIn"
+          text="Sign in"
           onClick={handelSignIn}
           isLoading={loading}
           isDisabled={buttonDisabled}
