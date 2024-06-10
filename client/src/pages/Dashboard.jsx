@@ -8,6 +8,7 @@ import AddWorkout from "../components/AddWorkout";
 import WorkoutCard from "../components/cards/WorkoutCard";
 import { addWorkout, getDashboardDetails, getWorkouts } from "../api";
 import Loader from "../components/Loader";
+import { CircularProgress } from "@mui/material";
 
 const Container = styled.div`
   flex: 1;
@@ -65,7 +66,8 @@ const CardWrapper = styled.div`
 `;
 
 const Dashboard = () => {
-  const [loading, setLoading] = useState(false);
+  const [dashboardLoading, setDashboardLoading] = useState(false);
+  const [todaysWorkoutLoading, setTodaysWorkoutLoading] = useState(false);
   const [data, setData] = useState();
   const [buttonLoading, setButtonLoading] = useState(false);
   const [todaysWorkouts, setTodaysWorkouts] = useState([]);
@@ -76,21 +78,21 @@ const Dashboard = () => {
 -10 min`);
 
   const dashboardData = async () => {
-    setLoading(true);
+    setDashboardLoading(true);
     const token = localStorage.getItem("workout-pulse-app-token");
     await getDashboardDetails(token).then((res) => {
       setData(res.data);
       console.log(res.data);
-      setLoading(false);
+      setDashboardLoading(false);
     });
   };
   const getTodaysWorkout = async () => {
-    setLoading(true);
+    setTodaysWorkoutLoading(true);
     const token = localStorage.getItem("workout-pulse-app-token");
     await getWorkouts(token, "").then((res) => {
       setTodaysWorkouts(res?.data?.todaysWorkouts);
       console.log(res.data);
-      setLoading(false);
+      setTodaysWorkoutLoading(false);
     });
   };
 
@@ -115,7 +117,7 @@ const Dashboard = () => {
   return (
     <Container>
       <Wrapper>
-        {loading && <Loader />}
+        {dashboardLoading && <Loader />}
         <Title>Dashboard</Title>
         <FlexWrap>
           {counts.map((item) => (
@@ -137,9 +139,11 @@ const Dashboard = () => {
         <Section>
           <Title>Todays Workouts</Title>
           <CardWrapper>
-            {todaysWorkouts.map((workout) => (
-              <WorkoutCard workout={workout} />
-            ))}
+            {todaysWorkoutLoading ? (
+              <CircularProgress color="inherit" />
+            ) : (
+              todaysWorkouts.map((workout) => <WorkoutCard workout={workout} />)
+            )}
           </CardWrapper>
         </Section>
       </Wrapper>

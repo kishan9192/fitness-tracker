@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import WorkoutCard from "../components/cards/WorkoutCard";
@@ -6,6 +7,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers";
 import { getWorkouts } from "../api";
 import { CircularProgress } from "@mui/material";
+import dayjs from "dayjs";
 
 const Container = styled.div`
   flex: 1;
@@ -71,6 +73,19 @@ const SecTitle = styled.div`
   font-weight: 500;
 `;
 
+const getDateText = (date) => {
+  const currentDate = dayjs();
+  const selectedDate = dayjs(date, "MM/DD/YYYY"); // Assuming 'date' is in MM/DD/YYYY format
+  const isToday = currentDate.isSame(selectedDate, "day");
+
+  // If the selected date is today, return 'Today's Workout', else return 'Workout on DD/MM/YYYY'
+  if (isToday) {
+    return "Today's Workout";
+  } else {
+    return `Workout on ${selectedDate.format("DD/MM/YYYY")}`;
+  }
+};
+
 const Workouts = () => {
   const [todaysWorkouts, setTodaysWorkouts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -89,6 +104,7 @@ const Workouts = () => {
   useEffect(() => {
     getTodaysWorkout();
   }, [date]);
+
   return (
     <Container>
       <Wrapper>
@@ -102,7 +118,7 @@ const Workouts = () => {
         </Left>
         <Right>
           <Section>
-            <SecTitle>Todays Workout</SecTitle>
+            <SecTitle>{getDateText(date)}</SecTitle>
             {loading ? (
               <CircularProgress />
             ) : (
