@@ -58,5 +58,4 @@ const startServer = async () => {
   }
 };
 
-fitness - tracker - backend - six.vercel.app;
 startServer();
