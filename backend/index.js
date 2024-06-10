@@ -37,9 +37,11 @@ app.get("/", async (req, res) => {
 
 const connectDB = () => {
   mongoose.set("strictQuery", true);
-  console.log("ENV URL", process.env.MONGODB_URL);
+  console.log("ENV URL", process.env.MONGODB_URL.trim());
   mongoose
-    .connect(process.env.MONGODB_URL)
+    .connect(
+      "mongodb+srv://kishan:Kishan%401999@atlascluster.jotkxc5.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster"
+    )
     .then(() => console.log("Connected to Mongo DB"))
     .catch((err) => {
       console.error("failed to connect with mongo");
@@ -56,4 +58,5 @@ const startServer = async () => {
   }
 };
 
+fitness - tracker - backend - six.vercel.app;
 startServer();
