@@ -7,7 +7,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers";
 import { getWorkouts } from "../api";
 import { CircularProgress } from "@mui/material";
-import dayjs from "dayjs";
 
 const Container = styled.div`
   flex: 1;
@@ -74,15 +73,38 @@ const SecTitle = styled.div`
 `;
 
 const getDateText = (date) => {
-  const currentDate = dayjs();
-  const selectedDate = dayjs(date, "MM/DD/YYYY"); // Assuming 'date' is in MM/DD/YYYY format
-  const isToday = currentDate.isSame(selectedDate, "day");
+  const todaysDate = new Date();
+  const selectedDate = new Date(date);
+  const day = todaysDate.getDate();
+  const month = todaysDate.getMonth();
+  const year = todaysDate.getFullYear();
+  const selectedDay = selectedDate.getDate();
+  const selectedMonth = selectedDate.toLocaleDateString("default", {
+    month: "short",
+  });
 
-  // If the selected date is today, return 'Today's Workout', else return 'Workout on DD/MM/YYYY'
-  if (isToday) {
+  function getOrdinalSuffix(i) {
+    var j = i % 10,
+      k = i % 100;
+    if (j === 1 && k !== 11) {
+      return i + "st";
+    }
+    if (j === 2 && k !== 12) {
+      return i + "nd";
+    }
+    if (j === 3 && k !== 13) {
+      return i + "rd";
+    }
+    return i + "th";
+  }
+
+  const selectedDaysOrdinalSuffix = getOrdinalSuffix(selectedDay);
+
+  const dateString = `${month}/${day}/${year}`;
+  if (dateString === date || date === "") {
     return "Today's Workout";
   } else {
-    return `Workout on ${selectedDate.format("DD/MM/YYYY")}`;
+    return `Workout on ${selectedDaysOrdinalSuffix} ${selectedMonth}`;
   }
 };
 
